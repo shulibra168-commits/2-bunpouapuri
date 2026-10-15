@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>疑問詞＋to マスター 🧭 Grammar Quest</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0f0e1a;
+  --surface:#222040;
+  --surface2:#2d2950;
+  --accent:#00c9a7;
+  --accent2:#fc5c7d;
+  --accent3:#7c5cfc;
+  --green:#2ed573;
+  --red:#ff4757;
+  --text:#ffffff;
+  --muted:#ffffff;
+  --border:rgba(0,201,167,0.3);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  font-family:'Nunito','Noto Sans JP',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  padding:16px;
+  position:relative;
+  overflow-x:hidden;
+}
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:0;
+  background:
+    radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,.7), transparent),
+    radial-gradient(2px 2px at 70% 60%, rgba(255,255,255,.5), transparent),
+    radial-gradient(1.5px 1.5px at 40% 80%, rgba(255,255,255,.6), transparent),
+    radial-gradient(1.5px 1.5px at 85% 20%, rgba(255,255,255,.5), transparent),
+    radial-gradient(2px 2px at 10% 70%, rgba(255,255,255,.4), transparent),
+    radial-gradient(1px 1px at 55% 15%, rgba(255,255,255,.5), transparent),
+    radial-gradient(900px 600px at 80% 0%, rgba(124,92,252,0.18), transparent),
+    radial-gradient(800px 500px at 0% 100%, rgba(0,201,167,0.16), transparent),
+    radial-gradient(700px 500px at 100% 100%, rgba(252,92,125,0.12), transparent);
+  pointer-events:none;
+}
+.app{
+  position:relative;
+  z-index:1;
+  width:100%;
+  max-width:680px;
+}
+.screen{display:none;animation:fade .4s ease;}
+.screen.active{display:block;}
+@keyframes fade{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:22px;
+  padding:26px 22px;
+  box-shadow:0 18px 50px rgba(0,0,0,.45);
+}
+
+/* ===== Title ===== */
+.title-badge{
+  display:inline-block;
+  font-weight:800;
+  font-size:.8rem;
+  letter-spacing:.08em;
+  color:var(--bg);
+  background:linear-gradient(90deg,var(--accent),var(--accent3));
+  padding:6px 14px;
+  border-radius:999px;
+  margin-bottom:14px;
+}
+h1{
+  font-size:1.85rem;
+  font-weight:900;
+  line-height:1.25;
+  margin-bottom:6px;
+  color:#ffffff;
+  text-shadow:0 2px 12px rgba(124,92,252,.35);
+}
+.subtitle{color:var(--muted);font-size:.95rem;margin-bottom:20px;}
+.formula{
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:16px 18px;
+  margin-bottom:12px;
+}
+.formula .f-main{
+  font-size:1.15rem;
+  font-weight:800;
+  color:var(--accent);
+  margin-bottom:6px;
+}
+.formula .f-main span{color:var(--accent2);}
+.formula .f-main em{color:var(--accent3);font-style:normal;}
+.formula .f-desc{font-size:.92rem;color:var(--text);margin-bottom:4px;}
+.formula .f-ex{font-size:.86rem;color:var(--muted);}
+.section-label{
+  font-size:.82rem;
+  font-weight:700;
+  color:var(--muted);
+  margin:20px 0 10px;
+  letter-spacing:.04em;
+}
+.options-row{display:flex;gap:10px;flex-wrap:wrap;}
+.choice{
+  flex:1;
+  min-width:90px;
+  background:var(--surface2);
+  border:2px solid transparent;
+  border-radius:14px;
+  padding:14px 10px;
+  text-align:center;
+  cursor:pointer;
+  transition:.18s;
+  font-weight:700;
+  color:var(--text);
+  font-size:.95rem;
+}
+.choice:hover{background:#2b264a;}
+.choice.selected{
+  border-color:var(--accent);
+  background:rgba(0,201,167,.12);
+}
+.choice .big{font-size:1.25rem;display:block;}
+.choice .lbl{font-size:.78rem;color:var(--muted);display:block;margin-top:4px;}
+.start-btn,.next-btn,.again-btn{
+  width:100%;
+  border:none;
+  border-radius:16px;
+  padding:16px;
+  font-family:inherit;
+  font-weight:900;
+  font-size:1.1rem;
+  cursor:pointer;
+  color:var(--bg);
+  background:linear-gradient(90deg,var(--accent),var(--accent3));
+  margin-top:22px;
+  transition:.18s;
+  box-shadow:0 10px 26px rgba(0,201,167,.3);
+}
+.start-btn:hover,.next-btn:hover,.again-btn:hover{transform:translateY(-2px);}
+.best-line{
+  margin-top:16px;text-align:center;font-size:.85rem;color:var(--muted);
+}
+
+/* ===== Quiz HUD ===== */
+.hud{
+  display:flex;justify-content:space-between;align-items:center;
+  gap:8px;margin-bottom:14px;flex-wrap:wrap;
+}
+.hud .stat{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:8px 12px;
+  font-weight:800;
+  font-size:.9rem;
+  flex:1;
+  text-align:center;
+  min-width:74px;
+}
+.hud .stat small{display:block;font-size:.66rem;color:var(--muted);font-weight:700;}
+.lives{font-size:1.1rem;letter-spacing:2px;}
+.progress-wrap{
+  background:var(--surface);
+  border-radius:999px;
+  height:10px;
+  overflow:hidden;
+  margin-bottom:18px;
+  border:1px solid var(--border);
+}
+.progress-bar{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  transition:width .35s ease;
+}
+.qtype{
+  display:inline-block;
+  font-size:.74rem;
+  font-weight:800;
+  color:var(--accent3);
+  background:rgba(124,92,252,.14);
+  border:1px solid rgba(124,92,252,.35);
+  padding:4px 10px;
+  border-radius:999px;
+  margin-bottom:12px;
+}
+.qtext{
+  font-size:1.32rem;
+  font-weight:800;
+  line-height:1.5;
+  margin-bottom:10px;
+  white-space:pre-line;
+}
+.hint{
+  font-size:.88rem;
+  color:var(--muted);
+  background:var(--surface2);
+  border-radius:12px;
+  padding:10px 12px;
+  margin-bottom:16px;
+}
+.answers{display:flex;flex-direction:column;gap:10px;}
+.answer{
+  background:var(--surface2);
+  border:2px solid transparent;
+  border-radius:14px;
+  padding:14px 16px;
+  cursor:pointer;
+  font-weight:700;
+  font-size:1.02rem;
+  transition:.16s;
+  text-align:left;
+  color:var(--text);
+  font-family:inherit;
+}
+.answer:hover{background:#2b264a;transform:translateX(3px);}
+.answer.correct{border-color:var(--green);background:rgba(46,213,115,.16);}
+.answer.wrong{border-color:var(--red);background:rgba(255,71,87,.16);}
+.answer.disabled{cursor:default;pointer-events:none;opacity:.55;}
+.answer.disabled.correct,.answer.disabled.wrong{opacity:1;}
+.feedback{
+  margin-top:16px;
+  border-radius:16px;
+  padding:16px;
+  display:none;
+  animation:fade .3s ease;
+}
+.feedback.show{display:block;}
+.feedback.ok{background:rgba(46,213,115,.12);border:1px solid rgba(46,213,115,.4);}
+.feedback.ng{background:rgba(255,71,87,.12);border:1px solid rgba(255,71,87,.4);}
+.feedback .fb-head{font-weight:900;font-size:1.05rem;margin-bottom:8px;}
+.feedback.ok .fb-head{color:var(--green);}
+.feedback.ng .fb-head{color:var(--red);}
+.feedback .fb-exp{font-size:.94rem;line-height:1.6;margin-bottom:10px;}
+.feedback .fb-full{
+  font-size:.9rem;color:var(--text);
+  background:rgba(0,0,0,.22);
+  border-radius:10px;padding:10px 12px;white-space:pre-line;
+  border-left:3px solid var(--accent);
+}
+
+/* ===== Game Over / Result ===== */
+.center{text-align:center;}
+.big-emoji{font-size:3.4rem;margin-bottom:8px;}
+.grade{
+  font-size:4.5rem;font-weight:900;line-height:1;margin:6px 0;
+  color:var(--accent);
+  text-shadow:0 2px 16px rgba(0,201,167,.4);
+}
+.result-score{font-size:1.5rem;font-weight:900;margin-bottom:4px;}
+.result-sub{color:var(--muted);font-size:.92rem;margin-bottom:18px;}
+.new-best{
+  display:inline-block;color:var(--bg);font-weight:800;font-size:.8rem;
+  background:linear-gradient(90deg,#ffd76b,#ff9f43);
+  padding:4px 12px;border-radius:999px;margin-bottom:14px;
+}
+.review{text-align:left;margin-top:18px;}
+.review h3{font-size:.95rem;color:var(--muted);margin-bottom:10px;}
+.review-item{
+  display:flex;gap:10px;align-items:flex-start;
+  background:var(--surface2);border-radius:12px;padding:10px 12px;margin-bottom:8px;
+  font-size:.86rem;
+}
+.review-item .ic{font-size:1.1rem;flex-shrink:0;}
+.review-item .rq{font-weight:700;}
+.review-item .ra{color:var(--muted);font-size:.8rem;margin-top:2px;}
+.hidden{display:none !important;}
+.foot{text-align:center;color:var(--muted);font-size:.74rem;margin-top:18px;}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ===== TITLE ===== -->
+  <section id="titleScreen" class="screen active">
+    <div class="card">
+      <span class="title-badge">🧭 GRAMMAR QUEST</span>
+      <h1>疑問詞＋to マスター</h1>
+      <p class="subtitle">show / tell / teach + 人 + how to 〜 を使いこなせ！</p>
+
+      <div class="formula">
+        <div class="f-main">show / tell / teach + <span>人</span> + <em>疑問詞 + to + 動詞の原形</em></div>
+        <div class="f-desc">→「(人)に〜のしかた／何を〜すればよいか などを見せる・教える」</div>
+        <div class="f-ex">Please show me <em style="color:var(--accent3)">how to use</em> this.（これの使い方を教えて。）</div>
+      </div>
+      <div class="formula">
+        <div class="f-main">疑問詞 + to の意味</div>
+        <div class="f-desc">how to ＝〜のしかた ／ what to ＝何を〜すればよいか ／ where to ＝どこで〜すればよいか ／ when to ＝いつ〜すればよいか ／ which (+名詞) to ＝どちら(の…)を〜すればよいか</div>
+        <div class="f-ex">Tell me <em style="color:var(--accent3)">what to do</em>.（何をすればよいか教えて。）</div>
+      </div>
+
+      <div class="section-label">レベルを選ぼう</div>
+      <div class="options-row" id="levelRow">
+        <div class="choice selected" data-level="1"><span class="big">🌱</span><span class="lbl">Level 1<br>基本</span></div>
+        <div class="choice" data-level="2"><span class="big">🌿</span><span class="lbl">Level 2<br>応用</span></div>
+        <div class="choice" data-level="3"><span class="big">🔥</span><span class="lbl">Level 3<br>超難問</span></div>
+      </div>
+
+      <div class="section-label">ライフを選ぼう（少ないほど難しい）</div>
+      <div class="options-row" id="lifeRow">
+        <div class="choice selected" data-life="3"><span class="big">❤️❤️❤️</span><span class="lbl">かんたん</span></div>
+        <div class="choice" data-life="2"><span class="big">❤️❤️</span><span class="lbl">ふつう</span></div>
+        <div class="choice" data-life="1"><span class="big">❤️</span><span class="lbl">むずかしい</span></div>
+      </div>
+
+      <button class="start-btn" id="startBtn">冒険スタート！ 🚀</button>
+      <div class="best-line" id="bestLine"></div>
+    </div>
+    <div class="foot">北海道教育大学附属札幌中学校 英語科 / 10問チャレンジ</div>
+  </section>
+
+  <!-- ===== QUIZ ===== -->
+  <section id="quizScreen" class="screen">
+    <div class="hud">
+      <div class="stat"><small>スコア</small><span id="scoreVal">0</span></div>
+      <div class="stat"><small>連続正解</small><span id="streakVal">0</span></div>
+      <div class="stat"><small>正解率</small><span id="accVal">0%</span></div>
+      <div class="stat"><small>ライフ</small><span class="lives" id="livesVal">❤️❤️❤️</span></div>
+    </div>
+    <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
+    <div class="card">
+      <span class="qtype" id="qType">空欄を埋めよう</span>
+      <div class="qtext" id="qText"></div>
+      <div class="hint" id="qHint"></div>
+      <div class="answers" id="answers"></div>
+      <div class="feedback" id="feedback">
+        <div class="fb-head" id="fbHead"></div>
+        <div class="fb-exp" id="fbExp"></div>
+        <div class="fb-full" id="fbFull"></div>
+      </div>
+      <button class="next-btn hidden" id="nextBtn">次の問題へ →</button>
+    </div>
+    <div class="foot" id="qCounter"></div>
+  </section>
+
+  <!-- ===== GAME OVER ===== -->
+  <section id="gameoverScreen" class="screen">
+    <div class="card center">
+      <div class="big-emoji">💀</div>
+      <h1>ゲームオーバー</h1>
+      <p class="result-sub">ライフが尽きてしまった……でも、ここまでよく戦った！</p>
+      <div class="result-score" id="goScore">0 pt</div>
+      <div class="result-sub" id="goDetail"></div>
+      <div class="review" id="goReview"></div>
+      <button class="again-btn" id="goAgainBtn">もう一度挑戦する 🔁</button>
+    </div>
+  </section>
+
+  <!-- ===== RESULT ===== -->
+  <section id="resultScreen" class="screen">
+    <div class="card center">
+      <div class="big-emoji" id="rsEmoji">🏆</div>
+      <div id="newBestWrap"></div>
+      <div class="grade" id="rsGrade">A</div>
+      <div class="result-score" id="rsScore">0 pt</div>
+      <div class="result-sub" id="rsSub"></div>
+      <div class="review" id="rsReview"></div>
+      <button class="again-btn" id="rsAgainBtn">もう一度挑戦する 🔁</button>
+    </div>
+  </section>
+
+</div>
+
+<script>
+/* ============================================================
+   show / tell / teach + 人 + 疑問詞 + to  —  Grammar Quest
+   ============================================================ */
+
+/*QUESTIONS_START*/
+const QUESTIONS = {
+  1: [
+    {type:'空欄を埋めよう', q:'Please show me _____ to use this computer.', hint:'「このコンピューターの使い方」＝「どのように使うか」。', options:['how','what','where','when'], answer:0, explanation:'how to + 動詞の原形 ＝「〜のしかた」。show me how to use 〜 で「〜の使い方を見せて」。', full:'Please show me how to use this computer.\n（このコンピューターの使い方を教えてください。）'},
+    {type:'空欄を埋めよう', q:'Can you tell me _____ to go?', hint:'「どこへ行けばよいか」。', options:['where','how','what','when'], answer:0, explanation:'where to + 動詞の原形 ＝「どこへ（で）〜すればよいか」。', full:'Can you tell me where to go?\n（どこへ行けばよいか教えてくれますか。）'},
+    {type:'空欄を埋めよう', q:'She told me _____ to do next.', hint:'「次に何をすればよいか」。', options:['what','where','when','how'], answer:0, explanation:'what to + 動詞の原形 ＝「何を〜すればよいか」。', full:'She told me what to do next.\n（彼女は次に何をすればよいか私に教えてくれた。）'},
+    {type:'空欄を埋めよう', q:'Please tell me _____ to start.', hint:'「いつ始めればよいか」。', options:['when','what','where','how'], answer:0, explanation:'when to + 動詞の原形 ＝「いつ〜すればよいか」。', full:'Please tell me when to start.\n（いつ始めればよいか教えてください。）'},
+    {type:'空欄を埋めよう', q:'My father taught me how _____ a bike.', hint:'疑問詞のあとは「to + 動詞の原形」。', options:['to ride','ride','riding','rode'], answer:0, explanation:'how のあとは to + 動詞の原形。how to ride ＝「乗り方」。', full:'My father taught me how to ride a bike.\n（父は私に自転車の乗り方を教えてくれた。）'},
+    {type:'日本語訳を選ぼう', q:'Show me how to cook curry.', hint:'how to cook ＝「料理のしかた」。', options:['カレーの作り方を見せて','カレーを作って','カレーはどうだった？','カレーを作りたい'], answer:0, explanation:'show + 人 + how to 〜 ＝「(人)に〜のしかたを見せる（教える）」。', full:'Show me how to cook curry.\n（カレーの作り方を見せて。）'},
+    {type:'空欄を埋めよう', q:'I asked him _____ to buy.', hint:'「何を買えばよいか」。', options:['what','where','when','how'], answer:0, explanation:'what to buy ＝「何を買えばよいか」。', full:'I asked him what to buy.\n（私は彼に何を買えばよいかたずねた。）'},
+    {type:'空欄を埋めよう', q:'He showed me where _____ my bag.', hint:'疑問詞のあとは「to + 動詞の原形」。', options:['to put','put','putting','puts'], answer:0, explanation:'where to put ＝「どこに置けばよいか」。', full:'He showed me where to put my bag.\n（彼はかばんをどこに置けばよいか私に示してくれた。）'},
+    {type:'日本語訳を選ぼう', q:'Tell me where to sit.', hint:'where to sit ＝「どこに座ればよいか」。', options:['どこに座ればよいか教えて','どこに座ったか教えて','ここに座って','座る場所がない'], answer:0, explanation:'tell + 人 + where to 〜 ＝「(人)にどこで〜すればよいか教える」。', full:'Tell me where to sit.\n（どこに座ればよいか教えて。）'},
+    {type:'空欄を埋めよう', q:'Ms. Sato taught us _____ to write a letter in English.', hint:'「英語での手紙の書き方」。', options:['how','what','where','when'], answer:0, explanation:'how to write ＝「書き方」。', full:'Ms. Sato taught us how to write a letter in English.\n（佐藤先生は私たちに英語での手紙の書き方を教えてくれた。）'},
+    {type:'空欄を埋めよう', q:'Please tell me what _____.', hint:'疑問詞のあとは「to + 動詞の原形」。', options:['to say','say','saying','said'], answer:0, explanation:'what to say ＝「何を言えばよいか」。', full:'Please tell me what to say.\n（何を言えばよいか教えてください。）'},
+    {type:'日本語訳を選ぼう', q:'She told me when to come.', hint:'when to come ＝「いつ来ればよいか」。', options:['彼女は私にいつ来ればよいか教えてくれた','彼女はいつ来たか私に言った','彼女は私に来るなと言った','彼女はすぐに来た'], answer:0, explanation:'when to + 動詞の原形 ＝「いつ〜すればよいか」。', full:'She told me when to come.\n（彼女は私にいつ来ればよいか教えてくれた。）'},
+    {type:'空欄を埋めよう', q:'Can you show me _____ to get to the station?', hint:'「駅への行き方」＝「どうやって行くか」。', options:['how','what','when','which'], answer:0, explanation:'how to get to 〜 ＝「〜への行き方」。', full:'Can you show me how to get to the station?\n（駅への行き方を教えてくれますか。）'},
+    {type:'空欄を埋めよう', q:'I don\u0027t know. Please tell me _____ to eat.', hint:'「何を食べればよいか」。', options:['what','where','when','how'], answer:0, explanation:'what to eat ＝「何を食べればよいか」。', full:'Please tell me what to eat.\n（何を食べればよいか教えてください。）'},
+    {type:'日本語訳を選ぼう', q:'He taught me how to swim.', hint:'how to swim ＝「泳ぎ方」。', options:['彼は私に泳ぎ方を教えてくれた','彼は私と泳いだ','彼は泳ぐのが好きだ','彼は泳げなかった'], answer:0, explanation:'teach + 人 + how to 〜 ＝「(人)に〜のしかたを教える」。', full:'He taught me how to swim.\n（彼は私に泳ぎ方を教えてくれた。）'},
+    {type:'空欄を埋めよう', q:'The guide showed us _____ to take pictures.', hint:'「どこで写真をとればよいか」。', options:['where','what','how','when'], answer:0, explanation:'where to take pictures ＝「どこで写真をとればよいか」。', full:'The guide showed us where to take pictures.\n（ガイドは私たちにどこで写真をとればよいか教えてくれた。）'},
+    {type:'空欄を埋めよう', q:'Tell me when _____ the button.', hint:'疑問詞のあとは「to + 動詞の原形」。', options:['to push','push','pushed','pushing'], answer:0, explanation:'when to push ＝「いつ押せばよいか」。', full:'Tell me when to push the button.\n（いつボタンを押せばよいか教えて。）'},
+    {type:'日本語訳を選ぼう', q:'I asked my mother what to wear.', hint:'what to wear ＝「何を着ればよいか」。', options:['私は母に何を着ればよいかたずねた','私は母の服を着た','母は私に服を買った','私は母に服をあげた'], answer:0, explanation:'ask + 人 + what to 〜 ＝「(人)に何を〜すればよいかたずねる」。', full:'I asked my mother what to wear.\n（私は母に何を着ればよいかたずねた。）'},
+    {type:'空欄を埋めよう', q:'My brother taught me _____ to play chess.', hint:'「チェスのやり方」。', options:['how','what','where','when'], answer:0, explanation:'how to play ＝「やり方・遊び方」。', full:'My brother taught me how to play chess.\n（兄は私にチェスのやり方を教えてくれた。）'},
+    {type:'空欄を埋めよう', q:'Please show me where _____ my shoes.', hint:'疑問詞のあとは「to + 動詞の原形」。', options:['to take off','take off','took off','taking off'], answer:0, explanation:'where to take off ＝「どこで脱げばよいか」。', full:'Please show me where to take off my shoes.\n（どこでくつを脱げばよいか教えてください。）'}
+  ],
+  2: [
+    {type:'語順を選ぼう', q:'「使い方を見せてください。」正しい語順は？', hint:'show + 人 + how to + 動詞の原形。', options:['Please show me how to use it.','Please show how me to use it.','Please show me to how use it.','Please how to show me use it.'], answer:0, explanation:'show のあとに「人(me)」→「how to + 動詞の原形」の順。', full:'Please show me how to use it.\n（使い方を見せてください。）'},
+    {type:'正しい文を選ぼう', q:'「次に何をすればよいか教えて。」', hint:'what to do。', options:['Tell me what to do next.','Tell me what do next.','Tell me to what do next.','Tell what me to do next.'], answer:0, explanation:'tell + me + what to do が正しい形。', full:'Tell me what to do next.\n（次に何をすればよいか教えて。）'},
+    {type:'誤り訂正', q:'「He taught me how swim.」を正しく直すと？', hint:'疑問詞のあとに何が足りない？', options:['He taught me how to swim.','He taught me how swimming.','He taught how me to swim.','He taught me to how swim.'], answer:0, explanation:'how のあとは to + 動詞の原形。to が抜けていた。', full:'He taught me how to swim.\n（彼は私に泳ぎ方を教えてくれた。）'},
+    {type:'how vs what', q:'「何を言えばよいかわからない彼に」\nI told him _____ to say.', hint:'「言うこと」の中身を聞いている。', options:['what','how','where','when'], answer:0, explanation:'言う「内容」は what to say。how to say は「言い方」。', full:'I told him what to say.\n（私は彼に何を言えばよいか教えた。）'},
+    {type:'正しい文を選ぼう', q:'「どこで電車を降りればよいか教えてください。」', hint:'where to get off。', options:['Please tell me where to get off the train.','Please tell me where get off the train.','Please tell where me to get off the train.','Please tell me to where get off the train.'], answer:0, explanation:'tell + me + where to get off が正しい。', full:'Please tell me where to get off the train.\n（どこで電車を降りればよいか教えてください。）'},
+    {type:'語順を選ぼう', q:'「彼女は私にいつ出発すればよいか教えてくれた。」正しい語順は？', hint:'tell + 人 + when to + 動詞の原形。', options:['She told me when to leave.','She told when me to leave.','She told me to when leave.','She when told me to leave.'], answer:0, explanation:'tell + me + when to leave の順。', full:'She told me when to leave.\n（彼女は私にいつ出発すればよいか教えてくれた。）'},
+    {type:'誤り訂正', q:'「Please show me where to sitting.」を正しく直すと？', hint:'to のあとは動詞の原形。', options:['Please show me where to sit.','Please show me where sitting.','Please show me where to sat.','Please show where me to sit.'], answer:0, explanation:'to のあとは動詞の原形 sit。-ing にはしない。', full:'Please show me where to sit.\n（どこに座ればよいか教えてください。）'},
+    {type:'正しい文を選ぼう', q:'「彼は私たちにそのゲームの遊び方を教えてくれた。」', hint:'teach + 人 + how to play。', options:['He taught us how to play the game.','He taught us how play the game.','He taught how us to play the game.','He taught us how to played the game.'], answer:0, explanation:'teach + us + how to play が正しい。', full:'He taught us how to play the game.\n（彼は私たちにそのゲームの遊び方を教えてくれた。）'},
+    {type:'how vs what', q:'「料理の作り方」を聞きたい。\nPlease show me _____ to make this dish.', hint:'「どうやって」作るか。', options:['how','what','where','when'], answer:0, explanation:'作る「方法」は how to make。', full:'Please show me how to make this dish.\n（この料理の作り方を見せてください。）'},
+    {type:'where vs when', q:'「待ち合わせの場所」を知りたい。\nTell me _____ to meet.', hint:'「場所」をたずねる疑問詞は？', options:['where','when','what','how'], answer:0, explanation:'場所は where to meet。時間なら when to meet。', full:'Tell me where to meet.\n（どこで会えばよいか教えて。）'},
+    {type:'where vs when', q:'「待ち合わせの時間」を知りたい。\nTell me _____ to meet.', hint:'「時」をたずねる疑問詞は？', options:['when','where','what','how'], answer:0, explanation:'時間は when to meet。場所なら where to meet。', full:'Tell me when to meet.\n（いつ会えばよいか教えて。）'},
+    {type:'語順を選ぼう', q:'「何を持っていけばよいか、私は先生にたずねた。」正しい語順は？', hint:'ask + 人 + what to + 動詞の原形。', options:['I asked my teacher what to bring.','I asked what my teacher to bring.','I asked my teacher to what bring.','I what asked my teacher to bring.'], answer:0, explanation:'ask + my teacher + what to bring の順。', full:'I asked my teacher what to bring.\n（私は先生に何を持っていけばよいかたずねた。）'},
+    {type:'誤り訂正', q:'「Tell me what to buys.」を正しく直すと？', hint:'to のあとは動詞の原形。', options:['Tell me what to buy.','Tell me what buys.','Tell me what to bought.','Tell what me to buy.'], answer:0, explanation:'to のあとは原形 buy。-s はつけない。', full:'Tell me what to buy.\n（何を買えばよいか教えて。）'},
+    {type:'正しい文を選ぼう', q:'「どのバスに乗ればよいか教えてください。」', hint:'which + 名詞 + to + 動詞の原形。', options:['Please tell me which bus to take.','Please tell me which to take bus.','Please tell me to which bus take.','Please tell me which bus take.'], answer:0, explanation:'which bus to take ＝「どのバスに乗ればよいか」。which のすぐあとに名詞を置く。', full:'Please tell me which bus to take.\n（どのバスに乗ればよいか教えてください。）'},
+    {type:'how vs what', q:'「この漢字の読み方」\nCan you tell me _____ to read this kanji?', hint:'読む「方法」。', options:['how','what','where','when'], answer:0, explanation:'読み「方」は how to read。', full:'Can you tell me how to read this kanji?\n（この漢字の読み方を教えてくれますか。）'},
+    {type:'正しい文を選ぼう', q:'「彼女は私にどこでチケットを買えばよいか教えてくれた。」', hint:'show / tell + 人 + where to buy。', options:['She showed me where to buy a ticket.','She showed me where buy a ticket.','She showed where me to buy a ticket.','She showed me to where buy a ticket.'], answer:0, explanation:'show + me + where to buy が正しい。', full:'She showed me where to buy a ticket.\n（彼女は私にどこでチケットを買えばよいか教えてくれた。）'},
+    {type:'誤り訂正', q:'「My aunt taught how me to knit.」を正しく直すと？', hint:'「人」はどこに置く？', options:['My aunt taught me how to knit.','My aunt taught me how knit.','My aunt taught how to me knit.','My aunt taught me to how knit.'], answer:0, explanation:'teach + 人 + how to 〜 の順。人(me)は taught のすぐあと。', full:'My aunt taught me how to knit.\n（おばは私に編み物のしかたを教えてくれた。）'},
+    {type:'語順を選ぼう', q:'「どちらの道を行けばよいか教えて。」正しい語順は？', hint:'which + 名詞 + to + 動詞の原形。', options:['Tell me which way to go.','Tell me which to go way.','Tell me to which way go.','Tell which way me to go.'], answer:0, explanation:'which way to go ＝「どちらの道を行けばよいか」。', full:'Tell me which way to go.\n（どちらの道を行けばよいか教えて。）'},
+    {type:'正しい文を選ぼう', q:'「いつ薬を飲めばよいか、医者にたずねた。」', hint:'ask + 人 + when to take。', options:['I asked the doctor when to take the medicine.','I asked the doctor when take the medicine.','I asked when the doctor to take the medicine.','I asked the doctor to when take the medicine.'], answer:0, explanation:'ask + the doctor + when to take が正しい。', full:'I asked the doctor when to take the medicine.\n（いつ薬を飲めばよいか医者にたずねた。）'},
+    {type:'how vs what', q:'「何を作ればよいか」\nMom told me _____ to make for lunch.', hint:'作る「もの」をたずねている。', options:['what','how','where','when'], answer:0, explanation:'作る「もの」は what to make。how to make は「作り方」。', full:'Mom told me what to make for lunch.\n（母は昼食に何を作ればよいか私に教えてくれた。）'}
+  ],
+  3: [
+    {type:'ひっかけ問題', q:'「何をすればよいか教えて。」を表す英文は？', hint:'what to do と how to do の違い。', options:['Tell me what to do.','Tell me how to do.','Tell me where to do.','Tell me when to do.'], answer:0, explanation:'「何を〜」は what to do。how to do だけでは「何を」が抜けて不自然。', full:'Tell me what to do.\n（何をすればよいか教えて。）'},
+    {type:'文意判断', q:'「Show me how to make it.」と「Show me what to make.」の違いは？', hint:'how は「方法」、what は「もの」。', options:['前者は「作り方」、後者は「何を作ればよいか」','両方とも同じ意味','前者は「何を作ればよいか」、後者は「作り方」','前者は過去、後者は未来の話'], answer:0, explanation:'how to make ＝「作り方」、what to make ＝「何を作ればよいか」。', full:'Show me how to make it.（その作り方を見せて）\nShow me what to make.（何を作ればよいか見せて）'},
+    {type:'ひっかけ問題', q:'空欄に入るのは？\nI asked her _____ to take.（どの電車に乗ればよいか）', hint:'「どの〜」は which + 名詞。', options:['which train','what to train','which to train','train which'], answer:0, explanation:'which train to take ＝「どの電車に乗ればよいか」。which のあとに名詞が来る。', full:'I asked her which train to take.\n（私は彼女にどの電車に乗ればよいかたずねた。）'},
+    {type:'ひっかけ問題', q:'ふつう使わない表現はどれ？', hint:'「なぜ〜すればよいか」は疑問詞+to では言わない。', options:['why to go','how to go','where to go','when to go'], answer:0, explanation:'疑問詞 + to でふつう使うのは how / what / where / when / which。why to 〜 はふつう使わない。', full:'Tell me where to go.（◯）\nTell me why to go.（✕ ふつう使わない）'},
+    {type:'文意判断', q:'「Please tell me where to put this box.」の意味は？', hint:'where to put。', options:['この箱をどこに置けばよいか教えてください','この箱をどこに置いたか教えてください','この箱をここに置いてください','この箱はどこにありますか'], answer:0, explanation:'where to put ＝「どこに置けばよいか」。これからすることを表す。', full:'Please tell me where to put this box.\n（この箱をどこに置けばよいか教えてください。）'},
+    {type:'how vs what', q:'空欄に入るのは？\nHe told me _____ to say "thank you" in French.', hint:'フランス語での「言い方」。', options:['how','what','where','which'], answer:0, explanation:'「ありがとう」の「言い方」なので how to say。何を言うかは決まっている。', full:'He told me how to say "thank you" in French.\n（彼はフランス語での「ありがとう」の言い方を教えてくれた。）'},
+    {type:'how vs what', q:'空欄に入るのは？\nI was nervous. My friend told me _____ to say in the speech.', hint:'スピーチで話す「内容」。', options:['what','how','where','which'], answer:0, explanation:'話す「中身」なので what to say。', full:'My friend told me what to say in the speech.\n（友達はスピーチで何を言えばよいか教えてくれた。）'},
+    {type:'文意判断', q:'「He showed me which button to press.」の意味は？', hint:'which button to press。', options:['彼はどのボタンを押せばよいか私に示してくれた','彼はボタンを押してくれた','彼はボタンの作り方を教えてくれた','彼はいつボタンを押せばよいか言った'], answer:0, explanation:'which + 名詞 + to 〜 ＝「どの…を〜すればよいか」。', full:'He showed me which button to press.\n（彼はどのボタンを押せばよいか私に示してくれた。）'},
+    {type:'ひっかけ問題', q:'文法的に正しいのはどれ？', hint:'「人」の位置と to の有無に注目。', options:['Could you teach me how to dance?','Could you teach how me to dance?','Could you teach me how dance?','Could you teach me how to dancing?'], answer:0, explanation:'teach + 人 + how to + 動詞の原形。疑問文でも形は同じ。', full:'Could you teach me how to dance?\n（踊り方を教えてくださいませんか。）'},
+    {type:'where vs when', q:'空欄に入るのは？\nThe concert starts at six, but I don\u0027t know _____ to go. Please tell me the place.', hint:'時間はわかっている。わからないのは？', options:['where','when','what','how'], answer:0, explanation:'時間はわかっていて、わからないのは「場所」→ where to go。', full:'Please tell me where to go.\n（どこへ行けばよいか教えてください。）'},
+    {type:'文意判断', q:'「Ask your teacher what to study for the test.」の意味は？', hint:'what to study。', options:['テストのために何を勉強すればよいか先生にたずねなさい','先生にテストを作ってもらいなさい','先生といっしょに勉強しなさい','テストでは何を勉強したか先生に言いなさい'], answer:0, explanation:'ask + 人 + what to 〜 ＝「(人)に何を〜すればよいかたずねる」。', full:'Ask your teacher what to study for the test.\n（テストのために何を勉強すればよいか先生にたずねなさい。）'},
+    {type:'ひっかけ問題', q:'「どちらを選べばよいか教えて。」を表す英文は？', hint:'「どちら」＝which。名詞なしでも使える。', options:['Tell me which to choose.','Tell me what choose.','Tell me which choose to.','Tell me to which choose.'], answer:0, explanation:'which to choose ＝「どちらを選べばよいか」。which のあとに名詞がなくてもよい。', full:'Tell me which to choose.\n（どちらを選べばよいか教えて。）'},
+    {type:'文意判断', q:'「She taught me when to water the flowers.」の意味は？', hint:'when to water。', options:['彼女は私にいつ花に水をやればよいか教えてくれた','彼女は私に花の育て方を教えてくれた','彼女はいつ花に水をやったか言った','彼女は私に花をくれた'], answer:0, explanation:'when to 〜 ＝「いつ〜すればよいか」。', full:'She taught me when to water the flowers.\n（彼女は私にいつ花に水をやればよいか教えてくれた。）'},
+    {type:'how vs what', q:'「この単語の発音のしかた」を聞きたいときは？', hint:'発音する「方法」。', options:['Tell me how to say this word.','Tell me what to say this word.','Tell me where to say this word.','Tell me which to say this word.'], answer:0, explanation:'発音の「しかた」は how to say。what to say は「何を言えばよいか」で、this word と組み合わせると不自然。', full:'Tell me how to say this word.\n（この単語の発音のしかたを教えて。）'},
+    {type:'ひっかけ問題', q:'空欄に入るのは？\nCould you show me how _____ this machine?', hint:'to のあとは常に動詞の原形。', options:['to use','to using','using','to used'], answer:0, explanation:'how to use。to のあとは主語や時制に関係なく動詞の原形。', full:'Could you show me how to use this machine?\n（この機械の使い方を見せてくださいませんか。）'},
+    {type:'文意判断', q:'「I asked him where to buy the book, and he told me.」で、彼が教えてくれたのは？', hint:'where to buy。', options:['その本を買える場所','その本の値段','その本を買う日','その本の内容'], answer:0, explanation:'where to buy ＝「どこで買えばよいか」→ 場所。', full:'I asked him where to buy the book.\n（私は彼にその本をどこで買えばよいかたずねた。）'},
+    {type:'ひっかけ問題', q:'過去の文として正しいのは？「先生は私たちにどこに集まればよいか教えてくれた。」', hint:'過去になるのは前の動詞だけ。', options:['The teacher told us where to meet.','The teacher told us where to met.','The teacher tells us where to met.','The teacher told us where met.'], answer:0, explanation:'過去形にするのは told だけ。to のあとは原形 meet のまま。', full:'The teacher told us where to meet.\n（先生は私たちにどこに集まればよいか教えてくれた。）'},
+    {type:'how vs what', q:'絵の「描き方」を聞きたいときは？', hint:'方法をたずねる。', options:['Please teach me how to draw.','Please teach me what to draw.','Please teach me where to draw.','Please teach me which to draw.'], answer:0, explanation:'「描き方」は how to draw。what to draw は「何を描けばよいか」。', full:'Please teach me how to draw.\n（描き方を教えてください。）'},
+    {type:'文意判断', q:'「Don\u0027t worry. I\u0027ll show you what to do.」の意味は？', hint:'what to do。', options:['心配しないで。何をすればよいか教えるよ','心配しないで。私がやっておくよ','心配しないで。何もしなくていいよ','心配しないで。何をしたか見せるよ'], answer:0, explanation:'show + 人 + what to do ＝「(人)に何をすればよいか示す」。', full:'Don\u0027t worry. I\u0027ll show you what to do.\n（心配しないで。何をすればよいか教えるよ。）'},
+    {type:'where vs which', q:'空欄に入るのは？\nThere are two doors. Tell me _____ door to open.', hint:'2つのうち「どちらの」ドア？', options:['which','where','what','how'], answer:0, explanation:'限られた選択肢から選ぶ「どの〜」は which + 名詞。', full:'Tell me which door to open.\n（どちらのドアを開ければよいか教えて。）'}
+  ]
+};
+/*QUESTIONS_END*/
+
+const STORE_PREFIX = 'gq_whto_lv';
+
+/* ---------- state ---------- */
+let state = {
+  level:1, maxLives:3, lives:3,
+  questions:[], current:0,
+  score:0, streak:0, correctCount:0,
+  answered:false, results:[]
+};
+
+/* ---------- helpers ---------- */
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+function $(id){return document.getElementById(id);}
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  $(id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function hearts(n){return '❤️'.repeat(Math.max(0,n));}
+
+/* ---------- title interactions ---------- */
+$('levelRow').addEventListener('click',e=>{
+  const c = e.target.closest('.choice'); if(!c) return;
+  $('levelRow').querySelectorAll('.choice').forEach(x=>x.classList.remove('selected'));
+  c.classList.add('selected');
+  state.level = parseInt(c.dataset.level,10);
+  updateBestLine();
+});
+$('lifeRow').addEventListener('click',e=>{
+  const c = e.target.closest('.choice'); if(!c) return;
+  $('lifeRow').querySelectorAll('.choice').forEach(x=>x.classList.remove('selected'));
+  c.classList.add('selected');
+  state.maxLives = parseInt(c.dataset.life,10);
+});
+function updateBestLine(){
+  const best = localStorage.getItem(STORE_PREFIX+state.level);
+  const names = {1:'🌱 Level 1',2:'🌿 Level 2',3:'🔥 Level 3'};
+  $('bestLine').textContent = best
+    ? `${names[state.level]} のベストスコア：${best} pt`
+    : `${names[state.level]} のベストスコア：まだ記録なし`;
+}
+updateBestLine();
+
+/* ---------- start ---------- */
+$('startBtn').addEventListener('click',startGame);
+$('goAgainBtn').addEventListener('click',()=>{showScreen('titleScreen');updateBestLine();});
+$('rsAgainBtn').addEventListener('click',()=>{showScreen('titleScreen');updateBestLine();});
+
+function startGame(){
+  const pool = QUESTIONS[state.level];
+  const picked = shuffle(pool).slice(0,10).map(q=>{
+    const correctText = q.options[q.answer];
+    const shuffledOptions = shuffle(q.options);
+    return {
+      type:q.type, q:q.q, hint:q.hint,
+      options:shuffledOptions,
+      answer:shuffledOptions.indexOf(correctText),
+      explanation:q.explanation, full:q.full
+    };
+  });
+  state.questions = picked;
+  state.current = 0;
+  state.score = 0;
+  state.streak = 0;
+  state.correctCount = 0;
+  state.lives = state.maxLives;
+  state.results = [];
+  showScreen('quizScreen');
+  renderQuestion();
+}
+
+/* ---------- render ---------- */
+function renderQuestion(){
+  state.answered = false;
+  const q = state.questions[state.current];
+
+  $('scoreVal').textContent = state.score;
+  $('streakVal').textContent = state.streak;
+  const acc = state.current===0 ? 0 : Math.round(state.correctCount/state.current*100);
+  $('accVal').textContent = acc + '%';
+  $('livesVal').textContent = hearts(state.lives);
+
+  $('progressBar').style.width = (state.current/state.questions.length*100) + '%';
+  $('qCounter').textContent = `第 ${state.current+1} 問 / 全 ${state.questions.length} 問`;
+
+  $('qType').textContent = q.type;
+  $('qText').textContent = q.q;
+  $('qHint').textContent = '💡 ' + q.hint;
+
+  const wrap = $('answers');
+  wrap.innerHTML = '';
+  q.options.forEach((opt,i)=>{
+    const b = document.createElement('button');
+    b.className = 'answer';
+    b.textContent = opt;
+    b.onclick = ()=>selectAnswer(i);
+    wrap.appendChild(b);
+  });
+
+  const fb = $('feedback');
+  fb.className = 'feedback';
+  $('nextBtn').classList.add('hidden');
+}
+
+/* ---------- answer ---------- */
+function selectAnswer(idx){
+  if(state.answered) return;
+  state.answered = true;
+  const q = state.questions[state.current];
+  const isCorrect = idx === q.answer;
+  const buttons = $('answers').querySelectorAll('.answer');
+
+  buttons.forEach((b,i)=>{
+    b.classList.add('disabled');
+    if(i===q.answer) b.classList.add('correct');
+    if(i===idx && !isCorrect) b.classList.add('wrong');
+  });
+
+  let gained = 0;
+  if(isCorrect){
+    state.streak += 1;
+    state.correctCount += 1;
+    const bonus = Math.min((state.streak-1)*10,50);
+    gained = 100 + bonus;
+    state.score += gained;
+  }else{
+    state.streak = 0;
+    state.lives -= 1;
+  }
+
+  state.results.push({
+    q:q.q, correct:isCorrect,
+    yourAnswer:q.options[idx], rightAnswer:q.options[q.answer]
+  });
+
+  // feedback
+  const fb = $('feedback');
+  fb.className = 'feedback show ' + (isCorrect?'ok':'ng');
+  $('fbHead').textContent = isCorrect
+    ? `⭕ 正解！  +${gained} pt` + (state.streak>=2?`（${state.streak}連続！）`:'')
+    : '❌ 残念……';
+  $('fbExp').textContent = q.explanation;
+  $('fbFull').textContent = q.full;
+
+  // HUD update
+  $('scoreVal').textContent = state.score;
+  $('streakVal').textContent = state.streak;
+  $('livesVal').textContent = hearts(state.lives);
+  const answeredCount = state.current + 1;
+  $('accVal').textContent = Math.round(state.correctCount/answeredCount*100) + '%';
+
+  // ===== feedback rule: NO auto-transition =====
+  const nb = $('nextBtn');
+  nb.classList.remove('hidden');
+  if(state.lives <= 0){
+    nb.textContent = 'ゲームオーバーへ 💀';
+    nb.onclick = ()=>showGameOver();
+  }else{
+    nb.textContent = (state.current+1 >= state.questions.length) ? '結果を見る 🏆' : '次の問題へ →';
+    nb.onclick = ()=>nextQuestion();
+  }
+}
+
+function nextQuestion(){
+  state.current += 1;
+  if(state.current >= state.questions.length){
+    showResult();
+  }else{
+    renderQuestion();
+  }
+}
+
+/* ---------- best score ---------- */
+function saveBest(){
+  const key = STORE_PREFIX + state.level;
+  const prev = parseInt(localStorage.getItem(key)||'0',10);
+  if(state.score > prev){
+    localStorage.setItem(key, state.score);
+    return true;
+  }
+  return false;
+}
+
+/* ---------- review list ---------- */
+function buildReview(container){
+  container.innerHTML = '<h3>問題別の結果</h3>';
+  state.results.forEach((r,i)=>{
+    const item = document.createElement('div');
+    item.className = 'review-item';
+    item.innerHTML =
+      `<div class="ic">${r.correct?'✅':'❌'}</div>`+
+      `<div><div class="rq">第${i+1}問：${escapeHtml(r.q.replace(/\n/g,' '))}</div>`+
+      (r.correct?'':`<div class="ra">あなた：${escapeHtml(r.yourAnswer)} ／ 正解：${escapeHtml(r.rightAnswer)}</div>`)+
+      `</div>`;
+    container.appendChild(item);
+  });
+}
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+/* ---------- game over ---------- */
+function showGameOver(){
+  saveBest();
+  $('goScore').textContent = state.score + ' pt';
+  $('goDetail').textContent =
+    `正解数 ${state.correctCount} / ${state.current+1} 問　|　最大連続 ${maxStreakReached()} 連続`;
+  buildReview($('goReview'));
+  showScreen('gameoverScreen');
+}
+
+/* ---------- result ---------- */
+function showResult(){
+  $('progressBar').style.width = '100%';
+  const isBest = saveBest();
+  const total = state.questions.length;
+  const rate = state.correctCount/total;
+
+  let grade,emoji;
+  if(rate>=0.9){grade='S';emoji='👑';}
+  else if(rate>=0.75){grade='A';emoji='🏆';}
+  else if(rate>=0.5){grade='B';emoji='🎉';}
+  else{grade='C';emoji='💪';}
+
+  $('rsEmoji').textContent = emoji;
+  $('rsGrade').textContent = grade;
+  $('rsScore').textContent = state.score + ' pt';
+  $('rsSub').textContent = `正解数 ${state.correctCount} / ${total} 問（正解率 ${Math.round(rate*100)}%）`;
+  $('newBestWrap').innerHTML = isBest ? '<div class="new-best">🌟 ベストスコア更新！</div>' : '';
+  buildReview($('rsReview'));
+  showScreen('resultScreen');
+}
+
+function maxStreakReached(){
+  let max=0,cur=0;
+  state.results.forEach(r=>{
+    if(r.correct){cur++;max=Math.max(max,cur);}else{cur=0;}
+  });
+  return max;
+}
+</script>
+</body>
+</html>
